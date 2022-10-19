@@ -29,3 +29,13 @@ setRandomColor()
 document.addEventListener('keydown', event => {
   event.code === "Space"&& setRandomColor()
 })
+document.addEventListener('click', event => {
+   const type = event.target.dataset.type
+   if(type==="unlock"){
+    const node = event.target.tagName.toLowerCase() === "i"
+    ? event.target
+    : event.target.children[0];
+    node.classList.toggle("fa-lock-open")
+    node.classList.toggle("fa-lock")
+   }
+})
