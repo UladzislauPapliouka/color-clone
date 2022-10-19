@@ -38,6 +38,7 @@ body {
   border-radius: 10px;
   color: #fff;
   transition: background 0.3s;
+  outline: none;
 }
 
 .col button:hover {

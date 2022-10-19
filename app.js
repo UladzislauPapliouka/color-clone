@@ -2,13 +2,16 @@ const cols = document.querySelectorAll('.col')
 
 const setRandomColor = () => {
   cols.forEach(col => {
+    const isLocked = col.querySelector('i').classList.contains("fa-lock")
     const text =  col.querySelector("h2")
     const button = col.querySelector("button")
     const  color = chroma.random()
-    col.style.background =  color
-    text.textContent = color
-    setElementColor(text, color)
-    setElementColor(button, color)
+    if(!isLocked){
+      col.style.background =  color
+      text.textContent = color
+      setElementColor(text, color)
+      setElementColor(button, color)
+    }
   })
 }
 const generateRandomColor = () => {
@@ -27,6 +30,7 @@ const setElementColor = (element, color) => {
 }
 setRandomColor()
 document.addEventListener('keydown', event => {
+  event.preventDefault()
   event.code === "Space"&& setRandomColor()
 })
 document.addEventListener('click', event => {
