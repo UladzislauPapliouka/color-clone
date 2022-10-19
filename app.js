@@ -1,18 +1,40 @@
 const cols = document.querySelectorAll('.col')
 
-const setRandomColor = () => {
-  cols.forEach(col => {
+
+const updateColorHash = (colors = []) => {
+  document.location.hash = colors.map((color) => color.toString().substring(1)).join("-")
+
+}
+const getColorsFromHash = () => {
+  if(document.location.hash.length > 1){
+   return document.location.hash.substring(1).split("-").map(color => `#${color}`)
+  }
+  return []
+}
+const setRandomColor = (isInitial) => {
+  const colors = isInitial ? getColorsFromHash() : []
+  cols.forEach((col, index) => {
     const isLocked = col.querySelector('i').classList.contains("fa-lock")
     const text =  col.querySelector("h2")
     const button = col.querySelector("button")
-    const  color = chroma.random()
-    if(!isLocked){
-      col.style.background =  color
+    if(isLocked){
+      colors.push(text.textContent)
+      return
+    }
+    const  color = isInitial 
+    ? colors[index] 
+      ? colors[index] 
+      : chroma.random() 
+    : chroma.random()
+    if(!isInitial){
+      colors.push(color)
+    }
+    col.style.background =  color
       text.textContent = color
       setElementColor(text, color)
       setElementColor(button, color)
-    }
   })
+  updateColorHash(colors)
 }
 const generateRandomColor = () => {
   //RGB
@@ -28,7 +50,7 @@ const setElementColor = (element, color) => {
   const luminance = chroma(color).luminance()
   element.style.color = luminance > 0.5 ? '#000' : '#fff'
 }
-setRandomColor()
+
 document.addEventListener('keydown', event => {
   event.preventDefault()
   event.code === "Space"&& setRandomColor()
@@ -49,3 +71,6 @@ document.addEventListener('click', event => {
 const copyToClipboard = (text) => {
   return navigator.clipboard.writeText(text)
 }
+
+
+setRandomColor(true)
