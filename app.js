@@ -2,7 +2,7 @@ const cols = document.querySelectorAll('.col')
 
 const setRandomColor = () => {
   cols.forEach(col => {
-    console.log(col)
+    col.style.background = generateRandomColor()
   })
 }
 const generateRandomColor = () => {
@@ -14,3 +14,4 @@ const generateRandomColor = () => {
   }
   return `#${color}`
 }
+setRandomColor()
